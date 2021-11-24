@@ -1,0 +1,203 @@
+#handout3
+
+#  Q3.   Write a Python program to draw a boxplot for variables in tips.csv
+
+import seaborn as sns
+tips=sns.load_dataset('tips')
+tips.head()
+#Draw a vertical boxplot grouped
+#by a categorical variable:
+sns.set_style("whitegrid")
+sns.boxplot(x='day',y='total_bill',data=tips)
+
+#Q1. Write a Python program to find percentiles, inter quartile range and upper bound and lower bound values for a given dataset
+
+import numpy as np
+import pandas as pd
+dataset=[10,12,12,13,12,11,14,13,15,10,10,10,100,12,14,13,12,10]
+sorted(dataset)
+q1,q3=np.percentile(dataset,[25,75])
+iqr=q3-q1
+lower_bound=q1-(1.5*iqr)
+upper_bound=q3+(1.5*iqr)
+print(lower_bound)
+print(upper_bound)
+
+#Q2.  Write a Python program to draw a colored scatterplot fot the given data
+
+ #        girls_grades = [89, 90, 70, 89, 100, 80, 90, 100, 80, 34]
+#          boys_grades = [30, 29, 49, 48, 100, 48, 38, 45, 20, 30]
+import matplotlib.pyplot as plt
+girls_grades=[89,90,70,89,100,80,90,100,80,34]
+boys_grades=[30,29,49,48,100,48,38,45,20,30]
+grades_range=[10,20,30,40,50,60,70,80,90,100]
+fig=plt.figure()
+ax=fig.add_axes([0,0,1,1])
+ax.scatter(grades_range,girls_grades,color='r')
+ax.scatter(grades_range,boys_grades,color='b')
+ax.set_xlabel('Grades Range')
+ax.set_ylabel('Grades Scored')
+ax.set_title('scatter plot')
+plt.show()
+
+#Q4.  Write a Python program to draw a box plot for any two variables in tips.csv.
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+get_ipython().run_line_magic('matplotlib', 'inline')
+#load the dataset
+df=pd.read_csv("C:/Users/4mca/Downloads/tips.csv")
+#display 5 rows of dataset
+df.head()
+df.boxplot(by='day',column=['total_bill'],grid=False)
+import seaborn as sns
+tips=sns.load_dataset('tips')
+tips.head()
+#Draw a vertical boxplot grouped
+#by a categorical variable:
+sns.set_style("whitegrid")
+sns.boxplot(x='day',y='total_bill',data=tips)
+
+#handout4
+
+#Q1. Use scatter-plot to find outliers using Interquartile Range for a given dataset.
+
+import numpy as np
+import matplotlib.pyplot as plt
+x=[1,2,3,41,5,10]
+y=[0.4,1.0,1.7,2.0,2.2,3.0]
+plt.scatter(x,y)
+plt.show()
+
+#Q2. Identify Outliers and replace with 5th and 95th percentile values for a given dataset
+
+import numpy as np
+df=[10,286,1044,620,20,500,482,542,696,534,618,576,470]
+P1=np.percentile(df,5)
+P2=np.percentile(df,95)
+print(P1)
+print(P2)
+for i in range(len(df)):
+    if df[i]<P1:
+        print(df[i])
+        df[i]=P1
+    if df[i]>P2:
+        print(df[i])
+        df[i]=P2
+    print(df)   
+
+#handout4 
+#q3 write a python program to impute missing values with mean using SimpleImputer(numeric data) 
+
+import numpy as np 
+from sklearn.impute import SimpleImputer
+import pandas as pd 
+df=pd.DataFrame([[2,6],[np.nan,8],[5,np.nan],[5,4]])
+imp=SimpleImputer(strategy="most_frequent")
+print(imp.fit_transform(df))
+
+# q4 write a python program to  fit the simple imputer on a given dataset and use it to transform another dataset
+
+#https://scikit-learn.org/stable/modules/impute.html
+import numpy as np 
+from sklearn.impute import SimpleImputer
+imp=SimpleImputer(missing_values=np.nan,strategy='mean')
+imp.fit([[1,2],[np.nan,3],[7,6]])
+SimpleImputer()
+x=[[np.nan,2],[6,np.nan],[7,6]]
+print(imp.transform(x))
+
+# q5 write a python program to impute missing values with most frequent values using SimpleImputer(categorial data) 
+
+import numpy as np 
+from sklearn.impute import SimpleImputer
+df=pd.DataFrame([["a","x"],[np.nan,"y"],["a",np.nan],["b","y"]],dtype="category")
+imp=SimpleImputer(strategy="most_frequent")
+print(imp.fit_transform(df))
+#df.info()
+#df.describe()
+
+# q6 write a python program to find outliers using z-score(axis=0 and axis=1)
+
+#https://www.geeksforgeeks.org/scipy-stats-zscore-function-python/
+import numpy as np
+from scipy import stats
+arr1=[[20,2,7,1,34],[50,12,12,34,4]]
+arr2=[[50,12,12,34,4],[12,11,10,34,21]]
+print("arr1 :",arr1)
+print("np.mean(arr1,axis=0) :",np.mean(arr1,axis=0))
+print("np.mean(arr2,axis=1) :",np.mean(arr2,axis=1))
+print("arr2 :",arr2)
+print("\nZ-score for arr1:\n",stats.zscore(arr1,axis=0))
+print("\nZ-score for arr2:\n",stats.zscore(arr2,axis=1))
+
+# q7 write a python program (without using standers library) to find values of regression coefficients for dataset given below
+
+import matplotlib.pyplot as plt
+#y=[23,29,49,64,74,87,96,97,109,119,149,145,154,166]
+#x=[1,2,3,4,4,5,6,6,7,8,9,9,10,10]
+x=[8,2,11,6,5,4,12,9,6,1]
+y=[3,10,3,6,8,12,1,4,9,14]
+meanx=0
+meany=0
+for i in x:
+    meanx=meanx+i
+for i in y:
+    meany=meany+i
+meanavgx=meanx/10
+meanavgy=meany/10
+xi=list(map(lambda i: i-meanavgx ,x))
+yi=list(map(lambda i:i-meanavgy,y))
+print("xi",xi)
+print("yi",yi)
+print("mean value of x",meanavgx)
+xiyi=[a * b for a, b in zip(xi,yi)]
+print("xiyi ",xiyi)
+xi2=[i*i for i in xi]
+print("xi2",xi2)
+xiyisum=0
+for i in xiyi:
+    xiyisum=xiyisum+i
+print("xiyisum",xiyisum)
+xi2sum=sum(xi2)
+#for i in xi2:
+ #   xi2sum=xi2+i
+total=(xiyisum/xi2sum)
+print("total",total)
+totalx=meanavgy-total*meanavgx
+print(totalx)
+
+#q8 Write a Python program to draw the best fit regression line.
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+x=[1,2,3,4,5,6]
+y=[0.4,1.0,1.7,2.0,2.2,3.0]
+slope,intercept,r,p,std_err=stats.linregress(x,y)
+print(slope)
+print(intercept)
+def myfunc(x):
+    return slope*x+intercept
+mymodel=list(map(myfunc,x))
+plt.scatter(x,y)
+plt.plot(x,mymodel)
+plt.show()
+
+#handout 2
+
+#q6 create multile plots
+
+import matplotlib.pyplot as plt
+import numpy as np
+x=np.array([0,1,2,3])
+y=np.array([3,8,1,0])
+plt.subplot(1,2,1)
+plt.plot(x,y)
+# 2 plot
+x=np.array([0,1,2,3])
+y=np.array([10,20,30,40])
+plt.subplot(1,2,2)
+plt.plot(x,y)
+plt.show()
